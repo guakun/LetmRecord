@@ -46,8 +46,8 @@
   }
 
   const hasUserLogin = () => {
-    const userLogin = AV.user.current()
-    if(userLogin) {
+    const userLogin = AV.User.current()
+    if (userLogin) {
       return true
     } else {
       return false
@@ -55,7 +55,7 @@
   }
 
   $(function () {
-    if(hasUserLogin) {
+    if (hasUserLogin()) {
       $('#formRecord').on('submit', (e) => {
         e.preventDefault()
         saveRecord()
