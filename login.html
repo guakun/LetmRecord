@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>登录页面</title>
+</head>
+<body>
+<form id="formLogin">
+  <label for="username">
+    username: <input type="text" id="username">
+  </label>
+  <label for="password">
+    password: <input type="text" id="password">
+  </label>
+  <input type="submit" value="登录">
+</form>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="./util.js"></script>
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.9.0/dist/av-min.js"></script>
+<script src="./initLeanCloud.js"></script>
+
+<script>
+  // setTimeout(()=>{log('username', username, 'password', password)}, 3000)
+  const userLogin = () => {
+    const username = $('#username').val()
+    const password = $('#password').val()
+
+    AV.User.logIn(username, password)
+      .then((loginedUser) => {
+        alert('登录成功')
+        console.log('登录成功', loginedUser)
+      }, (error) => {
+        alert(JSON.stringify(error))
+      })
+  }
+
+  $(function () {
+    $('#formLogin').on('submit', (e) => {
+      e.preventDefault()
+      userLogin()
+    })
+  })
+
+</script>
+
+</body>
+</html>
