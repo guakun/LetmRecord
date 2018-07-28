@@ -1,27 +1,66 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-Hans">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title> 注册页面</title>
+  <title>登录页面</title>
+  <link rel="stylesheet" href="./style/reset.css">
+  <link rel="stylesheet" href="./style/components.css">
+  <link rel="stylesheet" href="./new-record.css">
+  <style>
+    body {
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+
+    #formLogin input {
+      margin-bottom: 10px;
+    }
+
+    #formLogin div {
+      text-align: center;
+    }
+    .navgation-box {
+      margin: 10px 10px;
+      display: flex;
+    }
+
+    .navgation-box li:hover a {
+      border-color: black;
+    }
+
+    .navgation-box li:active {
+
+    }
+    .navgation-box li a {
+      border: 1px solid #999;
+      display: inline-block;
+      padding: 20px 10px;
+      margin-left: 10px;
+    }
+  </style>
 </head>
 <body>
-<ul>
-  <li><a href="./login.html" style="border: 1px solid #999; display: inline-block; padding: 20px 10px">登录页面</a></li>
-  <li><a href="./new-record.html" style="margin-top: 2px; border: 1px solid #999; display: inline-block; padding: 20px 10px">填写记录页面</a></li>
+<ul class="navgation-box">
+  <li><a href="sign-in.html">注册页面</a></li>
+  <li><a href=" ./new-record.html">填写记录页面</a></li>
 </ul>
-<form id="formSignIn">
+<form id="formLogin">
   <label for="username">
     username: <input type="text" id="username">
   </label>
+  <br>
   <label for="password">
     password: <input type="text" id="password">
   </label>
-  <label for="email">
-    email: <input type="text" id="email">
-  </label>
-  <input type="submit" value="注册">
+  <div>
+    <input type="submit" value="登录" class="g-button">
+  </div>
 </form>
 <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
 <script src="./util.js"></script>
@@ -30,29 +69,32 @@
 
 <script>
   // setTimeout(()=>{log('username', username, 'password', password)}, 3000)
-  const userSignin = () => {
+  const userLogin = () => {
     const username = $('#username').val()
     const password = $('#password').val()
-    const email = $('#email').val()
 
-    const user = new AV.User()
-    user.setUsername(username)
-    user.setPassword(password)
-    user.setEmail(email)
-    user.signUp()
+    if(!username || !password) {
+      alert('用户名和密码都必须填写')
+    }
+
+    AV.User.logIn(username, password)
       .then((loginedUser) => {
-        alert('注册成功')
+        alert('登录成功')
+        console.log('登录成功', loginedUser)
+        window.location.href = './new-record.html'
       }, (error) => {
-        alert('error', JSON.stringify(error))
+        alert(JSON.stringify(error))
       })
   }
 
   $(function () {
-    $('#formSignIn').on('submit', (e) => {
+    $('#formLogin').on('submit', (e) => {
       e.preventDefault()
-      userSignin()
+      userLogin()
     })
   })
+
 </script>
+
 </body>
 </html>

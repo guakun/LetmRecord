@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title> 注册页面</title>
+  <link rel="stylesheet" href="./style/reset.css">
+  <link rel="stylesheet" href="./style/components.css">
+  <link rel="stylesheet" href="./new-record.css">
+  <style>
+    body {
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    #formSignIn{
+      border: 1px solid ;
+      border: 1px solid rgb(79, 145, 253);
+      padding: 30px 20px;
+    }
+    #formSignIn div{
+      text-align: center;
+    }
+    #formSignIn label span {
+      display: inline-block;
+      width: 70px; margin-right: 7px;
+    }
+
+    #formSignIn label input {
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+
+<form id="formSignIn">
+  <label for="username">
+    <span>username:</span> <input type="text" id="username">
+  </label>
+  <br>
+  <label for="password">
+    <span>password:</span> <input type="text" id="password">
+  </label>
+  <br>
+  <label for="email">
+    <span>email:</span> <input type="text" id="email">
+  </label>
+  <div>
+    <input type="submit" class="g-button" value="注册">
+  </div>
+</form>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="./util.js"></script>
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.9.0/dist/av-min.js"></script>
+<script src="./initLeanCloud.js"></script>
+
+<script>
+  // setTimeout(()=>{log('username', username, 'password', password)}, 3000)
+  const userSignin = () => {
+    const username = $('#username').val()
+    const password = $('#password').val()
+    const email = $('#email').val()
+
+    if(!username || !password || !email) {
+      alert('不能漏填任意一项')
+      return
+    }
+
+    const user = new AV.User()
+    user.setUsername(username)
+    user.setPassword(password)
+    user.setEmail(email)
+    user.signUp()
+      .then((loginedUser) => {
+        alert('注册成功')
+        window.location.href='./new-record.html'
+      }, (error) => {
+        alert('error', JSON.stringify(error))
+      })
+  }
+
+  $(function () {
+    $('#formSignIn').on('submit', (e) => {
+      e.preventDefault()
+      userSignin()
+    })
+  })
+</script>
+</body>
+</html>

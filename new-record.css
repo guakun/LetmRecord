@@ -1,0 +1,50 @@
+#logout {
+    position: absolute;
+    right: 40px;
+    top: 20px;
+}
+.record-list-box {
+    border: 1px solid #666;
+    display: flex;
+    flex-wrap: wrap;
+    padding-top: 10px;
+}
+.record-list-box li {
+    width: 170px;
+    height: 91px;
+    border: 1px solid #999;
+    font-size: 12px;
+    line-height: 16px;
+    margin-bottom: 10px;
+    margin-left: 10px;
+}
+
+.record-list-box li .record-date-box {
+    font-size: 16px;
+    line-height: 16px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+.record-list-box li .record-number-box {
+    text-align: center;
+    font-size: 24px;
+    line-height: 24px;
+}
+
+.today-info-box {
+    width: 170px;
+    margin-bottom: 10px;
+    line-height: 20px;
+}
+.kg-wrapper {
+    display: inline-block;
+    position: relative;
+}
+.kg-wrapper span {
+    position: absolute;
+    right: 3px;
+    top: 8px;
+    font-size: 16px;
+    color: #666;
+}

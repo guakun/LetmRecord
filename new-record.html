@@ -5,28 +5,46 @@
   <meta name="viewport"
         content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Document</title>
+  <title>记录页面</title>
+  <link rel="stylesheet" href="./style/reset.css">
+  <link rel="stylesheet" href="./style/components.css">
+  <link rel="stylesheet" href="./new-record.css">
 </head>
-<body>
+<body style="position: relative">
+<button id="logout">退出登录</button>
 <form id="formRecord">
-  <label for="recordDate">
-    date: <input type="text" id="recordDate">
-  </label>
+  <h1 class="today-info-box">Hi {{username}}道友, 请填写{{date}}的体重: </h1>
   <label for="recordNumber">
-    weight: <input type="text" id="recordNumber">
+    今日体重:
+    <div class="kg-wrapper">
+      <input type="text" id="recordNumber"><span>KG</span>
+    </div>
   </label>
-  <input type="submit" value="提交">
+  <div style="margin-top: 10px">
+    <input type="submit" class="g-button" value="提交">
+  </div>
 </form>
+<hr style="margin: 20px 0;">
+<ul class="record-list-box">
+</ul>
+
 <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
 <script src="./util.js"></script>
 <script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.9.0/dist/av-min.js"></script>
 <script src="./initLeanCloud.js"></script>
+<script src="./record-list.js"></script>
 
 <script>
   const Record = AV.Object.extend('Record')
+
   const saveRecord = () => {
-    const recordDate = $('#recordDate').val()
     const recordNumber = $('#recordNumber').val()
+    if(!recordNumber) {
+      alert('不能为空')
+      return
+    }
+    const d = new Date()
+    const recordDate = d.format('yyyy/MM/dd')
 
     const loginUser = AV.User.current()
     const username = loginUser.attributes.username
@@ -39,19 +57,13 @@
     record.save()
       .then((x) => {
         alert('保存成功')
-        log('x', x)
+        let li = document.createElement('li')
+        li.innerHTML = `<div class='record-date-box'>${recordDate}</div><div class='record-number-box'> ${recordNumber}KG</div>`
+        $('.record-list-box').append(li)
+        $('#recordNumber').val('')
       }, (error) => {
         alert(JSON.stringify(error))
       })
-  }
-
-  const hasUserLogin = () => {
-    const userLogin = AV.User.current()
-    if (userLogin) {
-      return true
-    } else {
-      return false
-    }
   }
 
   $(function () {
@@ -62,9 +74,21 @@
       })
     } else {
       alert('请登录')
+      window.location.href = './index.html'
     }
-  })
+    logout.onclick = () => {
+      AV.User.logOut()
+      window.location.href = './index.html'
+    }
 
+    const d = new Date()
+    const recordDate = d.format('yyyy/MM/dd')
+    const username = AV.User.current().attributes.username
+    let date = $('.today-info-box').html()
+      .replace('{{date}}', recordDate)
+      .replace('{{username}}', username)
+    $('.today-info-box').html(date)
+  })
 </script>
 </body>
 </html>
